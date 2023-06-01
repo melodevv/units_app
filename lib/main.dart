@@ -1,48 +1,40 @@
+// ignore_for_file: deprecated_member_use
+
 import 'package:flutter/material.dart';
+import 'pages/loginscreen.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(const MyApp());
 }
-// Press ctrl + . and ignore the error or warning about outdated widgets for the file
-class MyApp extends StatelessWidget {
-  final ThemeData charcoalTheme = ThemeData(
-    brightness: Brightness.dark,
-    primaryColor: Colors.grey[900],
-    accentColor: Colors.grey[500],
-    scaffoldBackgroundColor: Colors.grey[900],
-    textTheme: TextTheme(
-      bodyText1: TextStyle(color: Colors.grey[500]),
-      bodyText2: TextStyle(color: Colors.grey[500]),
-    ),
-    appBarTheme: AppBarTheme(
-      color: Colors.grey[900],
-      iconTheme: IconThemeData(color: Colors.grey[500]),
-      textTheme: TextTheme(
-        headline6: TextStyle(
-          color: Colors.grey[500],
-          fontSize: 20.0,
-          fontWeight: FontWeight.bold,
-        ),
-      ),
-    ),
-  );
 
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
+  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Charcoal Theme',
-      theme: charcoalTheme,
-      home: Scaffold(
-        appBar: AppBar(
-          title: Text('Charcoal Theme'),
+      debugShowCheckedModeBanner: false,
+      theme: ThemeData(
+        scaffoldBackgroundColor: Colors.grey[900],
+        textTheme: TextTheme(
+          headline6: TextStyle(
+              color: Colors.grey[500],
+              fontSize: 20,
+              fontWeight: FontWeight.bold),
+          bodyText1: TextStyle(color: Colors.grey[500]),
+          bodyText2: TextStyle(color: Colors.grey[300]),
+          caption: TextStyle(color: Colors.grey[200]),
         ),
-        body: Center(
-          child: Text(
-            'Hello, World!',
-            style: Theme.of(context).textTheme.headline6,
-          ),
+        primaryColor: Colors.grey[900],
+        appBarTheme: AppBarTheme(
+          color: Colors.grey[900],
+          iconTheme: IconThemeData(color: Colors.grey[500]),
         ),
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.lightBlue),
+        useMaterial3: true,
       ),
+      home: const LoginScreen(),
     );
   }
 }
