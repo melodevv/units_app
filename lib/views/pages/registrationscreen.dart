@@ -30,6 +30,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
     passwordError = null;
   }
 
+  // SIYA TO-DO
+  // PLEASE MOVE THIS CODE TO user_auth_validation FILE UNDER VIEWMODEL
+  // STARTING HERE:
   void resetErrorText() {
     setState(() {
       emailError = null;
@@ -74,6 +77,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
       }
     }
   }
+  // 
+  // ENDING HERE
+  //
 
   @override
   Widget build(BuildContext context) {

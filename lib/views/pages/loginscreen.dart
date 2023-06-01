@@ -29,6 +29,9 @@ class _LoginScreen extends State<LoginScreen> {
     passwordError = null;
   }
 
+  // SIYA TO-DO
+  // PLEASE MOVE THIS CODE TO user_auth_validation FILE UNDER VIEWMODEL
+  // STARTING HERE:
   void resetErrorText() {
     setState(() {
       emailError = null;
@@ -67,6 +70,9 @@ class _LoginScreen extends State<LoginScreen> {
       }
     }
   }
+  // 
+  // ENDING HERE
+  // 
 
   @override
   Widget build(BuildContext context) {
