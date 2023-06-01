@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/pages/registrationscreen.dart';
-import 'package:flutter_application_1/widgets/form_button.dart';
-import 'package:flutter_application_1/widgets/textfield.dart';
+import '../widgets/form_button.dart';
+import '../widgets/textfield.dart';
+import 'registrationscreen.dart';
+
 
 class LoginScreen extends StatefulWidget {
   /// Callback for when this form is submitted successfully. Parameters are (email, password)
