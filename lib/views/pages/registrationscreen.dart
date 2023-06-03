@@ -1,14 +1,12 @@
 import 'package:flutter/material.dart';
-
+import 'package:units_app/viewmodel/user_auth_validation.dart';
 import '../widgets/form_button.dart';
 import '../widgets/textfield.dart';
 
 class RegisterScreen extends StatefulWidget {
   /// Callback for when this form is submitted successfully. Parameters are (email, password)
   final Function(String? email, String? password)? onSubmitted;
-
   const RegisterScreen({this.onSubmitted, Key? key}) : super(key: key);
-
   @override
   State<RegisterScreen> createState() => _RegisterScreenState();
 }
@@ -16,70 +14,18 @@ class RegisterScreen extends StatefulWidget {
 class _RegisterScreenState extends State<RegisterScreen> {
   late String email, password, confirmPassword;
   String? emailError, passwordError;
+  UserAuthentication userAuthentication = UserAuthentication();
   Function(String? email, String? password)? get onSubmitted =>
       widget.onSubmitted;
-
   @override
   void initState() {
     super.initState();
     email = '';
     password = '';
     confirmPassword = '';
-
     emailError = null;
     passwordError = null;
   }
-
-  // SIYA TO-DO
-  // PLEASE MOVE THIS CODE TO user_auth_validation FILE UNDER VIEWMODEL
-  // STARTING HERE:
-  void resetErrorText() {
-    setState(() {
-      emailError = null;
-      passwordError = null;
-    });
-  }
-
-  bool validate() {
-    resetErrorText();
-
-    RegExp emailExp = RegExp(
-        r"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,253}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,253}[a-zA-Z0-9])?)*$");
-
-    bool isValid = true;
-    if (email.isEmpty || !emailExp.hasMatch(email)) {
-      setState(() {
-        emailError = 'Email is invalid';
-      });
-      isValid = false;
-    }
-
-    if (password.isEmpty || confirmPassword.isEmpty) {
-      setState(() {
-        passwordError = 'Please enter a password';
-      });
-      isValid = false;
-    }
-    if (password != confirmPassword) {
-      setState(() {
-        passwordError = 'Passwords do not match';
-      });
-      isValid = false;
-    }
-
-    return isValid;
-  }
-
-  void submit() {
-    if (validate()) {
-      if (onSubmitted != null) {
-        onSubmitted!(email, password);
-      }
-    }
-  }
-  // 
-  // ENDING HERE
-  //
 
   @override
   Widget build(BuildContext context) {
@@ -138,7 +84,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   confirmPassword = value;
                 });
               },
-              onSubmitted: (value) => submit(),
+              onSubmitted: (value) {
+                userAuthentication.submit((email, password) {});
+              },
               labelText: 'Confirm Password',
               errorText: passwordError,
               obscureText: true,
@@ -149,7 +97,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
             ),
             FormButton(
               text: 'Sign Up',
-              onPressed: submit,
+              onPressed: () {
+                userAuthentication.submit((email, password) {});
+              },
             ),
             SizedBox(
               height: screenHeight * .125,
