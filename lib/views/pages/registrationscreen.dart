@@ -12,15 +12,16 @@ class RegisterScreen extends StatefulWidget {
 }
 
 class _RegisterScreenState extends State<RegisterScreen> {
-  late String email, password, confirmPassword;
+  late String email, name,password, confirmPassword;
   String? emailError, passwordError;
   UserAuthentication userAuthentication = UserAuthentication();
-  Function(String? email, String? password)? get onSubmitted =>
+  Function(String? email, String? name, String? password)? get onSubmitted =>
       widget.onSubmitted;
   @override
   void initState() {
     super.initState();
     email = '';
+    name = '';
     password = '';
     confirmPassword = '';
     emailError = null;
@@ -62,6 +63,18 @@ class _RegisterScreenState extends State<RegisterScreen> {
               labelText: 'Email',
               errorText: emailError,
               keyboardType: TextInputType.emailAddress,
+              textInputAction: TextInputAction.next,
+              autoFocus: true,
+            ),
+            SizedBox(height: screenHeight * .12),
+            InputField(
+              onChanged: (value) {
+                setState(() {
+                  name = value;
+                });
+              },
+              labelText: 'Name',
+              keyboardType: TextInputType.text,
               textInputAction: TextInputAction.next,
               autoFocus: true,
             ),
