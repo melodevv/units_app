@@ -14,20 +14,29 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreen extends State<LoginScreen> {
-  late String email, password;
+  late TextEditingController usernameController = TextEditingController();
+  late TextEditingController nameController = TextEditingController();
+  late TextEditingController passwordController = TextEditingController();
+
   String? emailError, passwordError;
   UserAuthentication userAuthentication = UserAuthentication();
-  Function(String? email, String? password)? get onSubmitted =>
-      widget.onSubmitted;
 
   @override
   void initState() {
     super.initState();
-    email = '';
-    password = '';
-
+    usernameController = TextEditingController();
+    nameController = TextEditingController();
+    passwordController = TextEditingController();
     emailError = null;
     passwordError = null;
+  }
+
+  @override
+  void dispose() {
+    usernameController.dispose();
+    nameController.dispose();
+    passwordController.dispose();
+    super.dispose();
   }
 
   @override
@@ -62,31 +71,25 @@ class _LoginScreen extends State<LoginScreen> {
             ),
             SizedBox(height: screenHeight * .12),
             InputField(
-              onChanged: (value) {
-                setState(() {
-                  email = value;
-                });
-              },
+              onChanged: (value) {},
               labelText: 'Email',
               errorText: emailError,
               keyboardType: TextInputType.emailAddress,
               textInputAction: TextInputAction.next,
               autoFocus: true,
+              controller: usernameController,
             ),
             SizedBox(height: screenHeight * .025),
             InputField(
-              onChanged: (value) {
-                setState(() {
-                  password = value;
-                });
-              },
-              onSubmitted: (val){
+              onChanged: (value) {},
+              onSubmitted: (val) {
                 userAuthentication.submit((email, password) {});
               },
               labelText: 'Password',
               errorText: passwordError,
               obscureText: true,
               textInputAction: TextInputAction.next,
+              controller: passwordController,
             ),
             Align(
               alignment: Alignment.centerRight,
@@ -104,11 +107,10 @@ class _LoginScreen extends State<LoginScreen> {
               height: screenHeight * .075,
             ),
             FormButton(
-              text: 'Log In',
-              onPressed: (){
-              userAuthentication.submit((email, password) {});
-              }
-            ),
+                text: 'Log In',
+                onPressed: () {
+                  userAuthentication.submit((email, password) {});
+                }),
             SizedBox(
               height: screenHeight * .15,
             ),
