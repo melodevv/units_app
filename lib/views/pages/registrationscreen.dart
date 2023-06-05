@@ -4,27 +4,35 @@ import '../widgets/form_button.dart';
 import '../widgets/textfield.dart';
 
 class RegisterScreen extends StatefulWidget {
-  /// Callback for when this form is submitted successfully. Parameters are (email, password)
-  final Function(String? email, String? password)? onSubmitted;
-  const RegisterScreen({this.onSubmitted, Key? key}) : super(key: key);
+  const RegisterScreen({Key? key}) : super(key: key);
   @override
   State<RegisterScreen> createState() => _RegisterScreenState();
 }
 
 class _RegisterScreenState extends State<RegisterScreen> {
-  late String email, password, confirmPassword;
+  late TextEditingController usernameController = TextEditingController();
+  late TextEditingController nameController = TextEditingController();
+  late TextEditingController passwordController = TextEditingController();
+
   String? emailError, passwordError;
   UserAuthentication userAuthentication = UserAuthentication();
-  Function(String? email, String? password)? get onSubmitted =>
-      widget.onSubmitted;
+
   @override
   void initState() {
     super.initState();
-    email = '';
-    password = '';
-    confirmPassword = '';
+    usernameController = TextEditingController();
+    nameController = TextEditingController();
+    passwordController = TextEditingController();
     emailError = null;
     passwordError = null;
+  }
+
+  @override
+  void dispose() {
+    usernameController.dispose();
+    nameController.dispose();
+    passwordController.dispose();
+    super.dispose();
   }
 
   @override
@@ -32,6 +40,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
     double screenHeight = MediaQuery.of(context).size.height;
 
     return Scaffold(
+      appBar: AppBar(
+        title: const Text(
+          'Sign Up',
+          style: TextStyle(color: Colors.grey),
+        ),
+      ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16),
         child: ListView(
@@ -54,36 +68,31 @@ class _RegisterScreenState extends State<RegisterScreen> {
             ),
             SizedBox(height: screenHeight * .12),
             InputField(
-              onChanged: (value) {
-                setState(() {
-                  email = value;
-                });
-              },
               labelText: 'Email',
               errorText: emailError,
               keyboardType: TextInputType.emailAddress,
               textInputAction: TextInputAction.next,
               autoFocus: true,
+              controller: usernameController,
             ),
             SizedBox(height: screenHeight * .025),
             InputField(
-              onChanged: (value) {
-                setState(() {
-                  password = value;
-                });
-              },
+              labelText: 'Name',
+              keyboardType: TextInputType.text,
+              textInputAction: TextInputAction.next,
+              autoFocus: true,
+              controller: nameController,
+            ),
+            SizedBox(height: screenHeight * .025),
+            InputField(
               labelText: 'Password',
               errorText: passwordError,
               obscureText: true,
               textInputAction: TextInputAction.next,
+              controller: passwordController,
             ),
             SizedBox(height: screenHeight * .025),
             InputField(
-              onChanged: (value) {
-                setState(() {
-                  confirmPassword = value;
-                });
-              },
               onSubmitted: (value) {
                 userAuthentication.submit((email, password) {});
               },
@@ -91,6 +100,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
               errorText: passwordError,
               obscureText: true,
               textInputAction: TextInputAction.done,
+              controller: passwordController,
             ),
             SizedBox(
               height: screenHeight * .075,
