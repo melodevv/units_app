@@ -7,9 +7,9 @@ import 'package:units_app/routes/routes.dart';
 import 'package:units_app/services/user_service.dart';
 
 class InitApp {
-  static const String apiKeyAndroid = '46504B08-5162-4120-B9FA-1F938DD7CED9';
-  static const String apiKeyiOS = 'E281AD11-E6A6-423D-AB2E-84E6689E3A75';
-  static const String appID = '3660A7D5-2E72-16FE-FF13-F47D7346EE00';
+  static const String apiKeyAndroid = '45316AD5-A906-4554-90E9-3B9B89F129E7';
+  static const String apiKeyiOS = '2ACE6E3D-8794-4F15-A491-ECA6361A8ADD';
+  static const String appID = '8329D488-8458-0878-FF19-AB3C3C087A00';
 
   static void initializeApp(BuildContext context) async {
     await Backendless.initApp(
