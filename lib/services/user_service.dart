@@ -1,3 +1,5 @@
+// ignore_for_file: body_might_complete_normally_nullable
+
 import 'package:backendless_sdk/backendless_sdk.dart';
 import 'package:flutter/material.dart';
 import 'package:units_app/models/unit_entry.dart';
@@ -33,21 +35,45 @@ class UserService with ChangeNotifier {
     return result;
   }
 
+  // Logins user in
   Future<String> loginUser(String username, String password) async {
     String result = 'OK';
+
+    _showUserProgress = true;
+    _userProgressText = 'Logging you in...please wait...';
+    notifyListeners();
+
+    BackendlessUser? user = await Backendless.userService
+        .login(username, password, true)
+        .onError((error, stackTrace) {
+      result = getHumanReadableError(error.toString());
+    });
+
+    // Update the current user if user exists
+    if (user != null) {
+      _currentUser = user;
+    }
+
+    // Stop the progress indicator
+    _showUserProgress = false;
+    notifyListeners();
+
     return result;
   }
 
+  // Logs out the user
   Future<String> logoutUser() async {
     String result = 'OK';
     return result;
   }
 
+  // Check if the user has already been logged in
   Future<String> checkIfUserLoggedIn() async {
     String result = 'O';
     return result;
   }
 
+  // Check if the username has already been used
   void checkIfUserExists(String username) async {
     DataQueryBuilder queryBuilder = DataQueryBuilder()
       ..whereClause = "email = '$username'";
@@ -72,6 +98,7 @@ class UserService with ChangeNotifier {
   Future<String> createUser(BackendlessUser user) async {
     String result = 'OK';
 
+    // Start the progress indicator
     _showUserProgress = true;
     _userProgressText = 'Creating a new user...please wait...';
     notifyListeners();
@@ -94,6 +121,8 @@ class UserService with ChangeNotifier {
     } catch (e) {
       result = getHumanReadableError(e.toString());
     }
+
+    // Stop the progress indicator
     _showUserProgress = false;
     notifyListeners();
 

@@ -57,123 +57,133 @@ class _RegisterPageState extends State<RegisterPage> {
         children: [
           Center(
             child: SingleChildScrollView(
-              child: Column(
-                // crossAxisAlignment: CrossAxisAlignment.stretch,
-                // mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  SizedBox(height: screenHeight * .12),
-                  const Text(
-                    'Are you a new user?',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontSize: 28,
-                      fontWeight: FontWeight.bold,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    SizedBox(height: screenHeight * .12),
+                    const Text(
+                      'Are you a new user?',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 28,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
-                  ),
-                  SizedBox(height: screenHeight * .01),
-                  Text(
-                    'Sign up to get started!',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontSize: 18,
-                      color: Colors.grey.withOpacity(.6),
+                    SizedBox(height: screenHeight * .01),
+                    Text(
+                      'Sign up to get started!',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 18,
+                        color: Colors.grey.withOpacity(.6),
+                      ),
                     ),
-                  ),
-                  SizedBox(height: screenHeight * .12),
-                  Focus(
-                    // Check to see if the username textfield is still in focus
-                    onFocusChange: (value) async {
-                      if (!value) {
-                        context
-                            .read<UserService>()
-                            .checkIfUserExists(usernameController.text.trim());
-                      }
-                    },
-                    child: InputField(
-                      labelText: 'Please enter your email address',
-                      // errorText: emailError,
-                      keyboardType: TextInputType.emailAddress,
+                    SizedBox(height: screenHeight * .12),
+                    Focus(
+                      // Check to see if the username textfield is still in focus
+                      onFocusChange: (value) async {
+                        if (!value) {
+                          context.read<UserService>().checkIfUserExists(
+                              usernameController.text.trim());
+                        }
+                      },
+                      child: InputField(
+                        labelText: 'Please enter your email address',
+                        // errorText: emailError,
+                        keyboardType: TextInputType.emailAddress,
+                        textInputAction: TextInputAction.next,
+                        controller: usernameController,
+                      ),
+                    ),
+                    Selector<UserService, bool>(
+                      selector: (context, value) => value.userExists,
+                      builder: (context, value, child) {
+                        return value
+                            ? const Text(
+                                'Username exits, pleasee choose another',
+                                style: TextStyle(
+                                  color: Colors.red,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              )
+                            : Container();
+                      },
+                    ),
+                    SizedBox(height: screenHeight * .025),
+                    InputField(
+                      labelText: 'Name',
+                      keyboardType: TextInputType.text,
                       textInputAction: TextInputAction.next,
-                      controller: usernameController,
+                      // autoFocus: true,
+                      controller: nameController,
                     ),
-                  ),
-                  Selector<UserService, bool>(
-                    selector: (context, value) => value.userExists,
-                    builder: (context, value, child) {
-                      return value
-                          ? const Text(
-                              'Username exits, pleasee choose another',
-                              style: TextStyle(
-                                color: Colors.red,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            )
-                          : Container();
-                    },
-                  ),
-                  SizedBox(height: screenHeight * .025),
-                  InputField(
-                    labelText: 'Name',
-                    keyboardType: TextInputType.text,
-                    textInputAction: TextInputAction.next,
-                    // autoFocus: true,
-                    controller: nameController,
-                  ),
-                  SizedBox(height: screenHeight * .025),
-                  InputField(
-                    labelText: 'Password',
-                    // errorText: passwordError,
-                    obscureText: true,
-                    textInputAction: TextInputAction.next,
-                    controller: passwordController,
-                  ),
-                  SizedBox(height: screenHeight * .025),
-                  // InputField(
-                  //   onSubmitted: (value) {
-                  //     // userAuthentication.submit((email, password) {});
-                  //   },
-                  //   labelText: 'Confirm Password',
-                  //   // errorText: passwordError,
-                  //   obscureText: true,
-                  //   textInputAction: TextInputAction.done,
-                  //   controller: passwordController,
-                  // ),
-                  // SizedBox(
-                  //   height: screenHeight * .075,
-                  // ),
-                  FormButton(
-                    onPressed: () {
-                      createNewUserInUI(
-                        context,
-                        email: usernameController.text.trim(),
-                        password: passwordController.text.trim(),
-                        name: nameController.text.trim(),
-                      );
-                    },
-                    text: 'Sign Up',
-                  ),
-                  SizedBox(
-                    height: screenHeight * .125,
-                  ),
-                  TextButton(
-                    onPressed: () => Navigator.pop(context),
-                    child: RichText(
-                      text: const TextSpan(
-                        text: "Already have and account? ",
-                        style: TextStyle(color: Colors.grey),
-                        children: [
-                          TextSpan(
-                            text: 'Sign In',
+                    SizedBox(height: screenHeight * .025),
+                    InputField(
+                      labelText: 'Password',
+                      // errorText: passwordError,
+                      obscureText: true,
+                      textInputAction: TextInputAction.next,
+                      controller: passwordController,
+                    ),
+                    // SizedBox(height: screenHeight * .025),
+                    // InputField(
+                    //   onSubmitted: (value) {
+                    //     // userAuthentication.submit((email, password) {});
+                    //   },
+                    //   labelText: 'Confirm Password',
+                    //   // errorText: passwordError,
+                    //   obscureText: true,
+                    //   textInputAction: TextInputAction.done,
+                    //   controller: passwordController,
+                    // ),
+                    SizedBox(
+                      height: screenHeight * .055,
+                    ),
+                    FormButton(
+                      onPressed: () {
+                        createNewUserInUI(
+                          context,
+                          email: usernameController.text.trim(),
+                          password: passwordController.text.trim(),
+                          name: nameController.text.trim(),
+                        );
+                      },
+                      text: 'Sign Up',
+                    ),
+                    SizedBox(
+                      height: screenHeight * .125,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        const Text(
+                          "Already have and account?",
+                          style: TextStyle(
+                            color: Colors.grey,
+                            fontSize: 16,
+                          ),
+                        ),
+                        TextButton(
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                          child: const Text(
+                            'Sign In',
                             style: TextStyle(
                               color: Colors.blue,
                               fontWeight: FontWeight.bold,
+                              fontSize: 16,
                             ),
                           ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
           ),

@@ -3,6 +3,7 @@
 import 'package:backendless_sdk/backendless_sdk.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:units_app/routes/routes.dart';
 import 'package:units_app/services/user_service.dart';
 import 'package:units_app/views/widgets/dialogs.dart';
 
@@ -36,7 +37,28 @@ void createNewUserInUI(BuildContext context,
 }
 
 void loginUserInUI(BuildContext context,
-    {required String email, required String password}) async {}
+    {required String email, required String password}) async {
+  // Remove focus from Textfeild and close keyboard
+  FocusManager.instance.primaryFocus?.unfocus();
+
+  if (email.isEmpty || password.isEmpty) {
+    showSnackBar(
+      context,
+      'Please enter all fields!',
+    );
+  } else {
+    String result = await context
+        .read<UserService>()
+        .loginUser(email.trim(), password.trim());
+
+    if (result != 'OK') {
+      showSnackBar(context, result);
+    } else {
+      // get the units of the users
+      Navigator.of(context).popAndPushNamed(RouteManager.unitPage);
+    }
+  }
+}
 
 void resetPasswordInUI(BuildContext context, {required String email}) async {}
 
