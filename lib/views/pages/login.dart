@@ -81,7 +81,6 @@ class _LoginPage extends State<LoginPage> {
                     ),
                     SizedBox(height: screenHeight * .12),
                     InputField(
-                      onChanged: (value) {},
                       labelText: 'Email',
                       // errorText: emailError,
                       keyboardType: TextInputType.emailAddress,
@@ -91,12 +90,8 @@ class _LoginPage extends State<LoginPage> {
                     ),
                     SizedBox(height: screenHeight * .025),
                     InputField(
-                      onChanged: (value) {},
-                      onSubmitted: (val) {
-                        userAuthentication.submit((email, password) {});
-                      },
-                      labelText: 'Password',
-                      // errorText: passwordError,
+                      labelText: 'Please enter your password',
+                      errorText: passwordError,
                       obscureText: true,
                       textInputAction: TextInputAction.next,
                       controller: passwordController,

@@ -112,11 +112,10 @@ class UserService with ChangeNotifier {
 
       // Save data to Backendless {TodoEntry} Table
       await Backendless.data
-          .of('TodoEntry')
+          .of('UnitEntry')
           .save(emptyEntry.toJson())
           .onError((error, stackTrace) {
         result = error.toString();
-        return null;
       });
     } catch (e) {
       result = getHumanReadableError(e.toString());

@@ -114,31 +114,18 @@ class _RegisterPageState extends State<RegisterPage> {
                     ),
                     SizedBox(height: screenHeight * .025),
                     InputField(
-                      labelText: 'Name',
+                      labelText: 'Please enter your name',
                       keyboardType: TextInputType.text,
                       textInputAction: TextInputAction.next,
-                      // autoFocus: true,
                       controller: nameController,
                     ),
                     SizedBox(height: screenHeight * .025),
                     InputField(
-                      labelText: 'Password',
-                      // errorText: passwordError,
+                      labelText: 'Please enter your password',
                       obscureText: true,
                       textInputAction: TextInputAction.next,
                       controller: passwordController,
                     ),
-                    // SizedBox(height: screenHeight * .025),
-                    // InputField(
-                    //   onSubmitted: (value) {
-                    //     // userAuthentication.submit((email, password) {});
-                    //   },
-                    //   labelText: 'Confirm Password',
-                    //   // errorText: passwordError,
-                    //   obscureText: true,
-                    //   textInputAction: TextInputAction.done,
-                    //   controller: passwordController,
-                    // ),
                     SizedBox(
                       height: screenHeight * .055,
                     ),
