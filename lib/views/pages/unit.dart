@@ -10,6 +10,6 @@ class UnitPage extends StatefulWidget {
 class _UnitPageState extends State<UnitPage> {
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return const Center(child: Text('Logged In'));
   }
 }
