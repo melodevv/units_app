@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:units_app/viewmodel/user_auth_validation.dart';
-import '../widgets/form_button.dart';
-import '../widgets/textfield.dart';
-import 'registrationscreen.dart';
+import 'package:units_app/views/pages/register.dart';
+import 'package:units_app/views/widgets/form_button.dart';
+import 'package:units_app/views/widgets/textfield.dart';
 
-class LoginScreen extends StatefulWidget {
+class LoginPage extends StatefulWidget {
   /// Callback for when this form is submitted successfully. Parameters are (email, password)
   final Function(String? email, String? password)? onSubmitted;
 
-  const LoginScreen({this.onSubmitted, Key? key}) : super(key: key);
+  const LoginPage({this.onSubmitted, Key? key}) : super(key: key);
   @override
-  State<LoginScreen> createState() => _LoginScreen();
+  State<LoginPage> createState() => _LoginPage();
 }
 
-class _LoginScreen extends State<LoginScreen> {
+class _LoginPage extends State<LoginPage> {
   late TextEditingController usernameController = TextEditingController();
   late TextEditingController nameController = TextEditingController();
   late TextEditingController passwordController = TextEditingController();
@@ -73,10 +73,10 @@ class _LoginScreen extends State<LoginScreen> {
             InputField(
               onChanged: (value) {},
               labelText: 'Email',
-              errorText: emailError,
+              // errorText: emailError,
               keyboardType: TextInputType.emailAddress,
               textInputAction: TextInputAction.next,
-              autoFocus: true,
+              // autoFocus: true,
               controller: usernameController,
             ),
             SizedBox(height: screenHeight * .025),
@@ -86,7 +86,7 @@ class _LoginScreen extends State<LoginScreen> {
                 userAuthentication.submit((email, password) {});
               },
               labelText: 'Password',
-              errorText: passwordError,
+              // errorText: passwordError,
               obscureText: true,
               textInputAction: TextInputAction.next,
               controller: passwordController,
@@ -118,7 +118,7 @@ class _LoginScreen extends State<LoginScreen> {
               onPressed: () => Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (_) => const RegisterScreen(),
+                  builder: (_) => const RegisterPage(),
                 ),
               ),
               child: RichText(
