@@ -1,4 +1,4 @@
-// ignore_for_file: body_might_complete_normally_nullable
+// ignore_for_file: body_might_complete_normally_nullable, unrelated_type_equality_checks, avoid_print
 
 import 'package:backendless_sdk/backendless_sdk.dart';
 import 'package:flutter/material.dart';
@@ -32,6 +32,23 @@ class UserService with ChangeNotifier {
 
   Future<String> resetPassword(String username) async {
     String result = 'OK';
+
+    // Start the progress indicator
+    _showUserProgress = true;
+    _userProgressText = 'Sending Reset instructions...please wait...';
+    notifyListeners();
+
+    // send the reset instructions to user email
+    await Backendless.userService
+        .restorePassword(username)
+        .onError((error, stackTrace) {
+      result = getHumanReadableError(error.toString());
+    });
+
+    // Stop the progress indicator
+    _showUserProgress = false;
+    notifyListeners();
+
     return result;
   }
 
@@ -39,6 +56,7 @@ class UserService with ChangeNotifier {
   Future<String> loginUser(String username, String password) async {
     String result = 'OK';
 
+    // Start the progress indicator
     _showUserProgress = true;
     _userProgressText = 'Logging you in...please wait...';
     notifyListeners();
@@ -64,12 +82,66 @@ class UserService with ChangeNotifier {
   // Logs out the user
   Future<String> logoutUser() async {
     String result = 'OK';
+
+    // Start the progress indicator
+    _showUserProgress = true;
+    _userProgressText = 'Signing you out...please wait...';
+    notifyListeners();
+
+    await Backendless.userService.logout().onError((error, stackTrace) {
+      result = error.toString();
+    });
+
+    // Stop the progress indicator
+    _showUserProgress = false;
+    notifyListeners();
+
     return result;
   }
 
   // Check if the user has already been logged in
   Future<String> checkIfUserLoggedIn() async {
-    String result = 'O';
+    String result = 'OK';
+
+    // Check to see if there is a valid login
+    bool? validLogin = await Backendless.userService
+        .isValidLogin()
+        .onError((error, stackTrace) {
+      result = error.toString();
+    });
+
+    // Check to see if the user login is valid
+    // and get ObjectId of logged in user
+    if (validLogin != null && validLogin) {
+      String? currentUserObjectId = await Backendless.userService
+          .loggedInUser()
+          .onError((error, stackTrace) {
+        result = error.toString();
+      });
+
+      // Find the current user ObjectId on Backendless Users table
+      if (currentUserObjectId != Null) {
+        Map<dynamic, dynamic>? mapOfCurrentUser = await Backendless.data
+            .of("Users")
+            .findById(currentUserObjectId!)
+            .onError((error, stackTrace) {
+          result = error.toString();
+        });
+
+        // set the current user
+        if (mapOfCurrentUser != Null) {
+          _currentUser = BackendlessUser.fromJson(mapOfCurrentUser!);
+          notifyListeners();
+        } else {
+          result = 'NOT OK';
+        }
+      } else {
+        result = 'NOT OK';
+      }
+    } else {
+      result = 'NOT OK';
+    }
+
     return result;
   }
 
@@ -129,6 +201,7 @@ class UserService with ChangeNotifier {
   }
 }
 
+// List of possible error that may occur in more understandable language
 String getHumanReadableError(String message) {
   if (message.contains('email address must be confirmed first')) {
     return 'Please check your inbox and confirm your email address and try to login again.';

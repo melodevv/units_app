@@ -20,10 +20,9 @@ class InputField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextField(
-      autofocus: false,
       controller: controller,
       keyboardType: keyboardType,
-      textInputAction: textInputAction,
+      // textInputAction: textInputAction,
       obscureText: obscureText,
       decoration: InputDecoration(
         labelText: labelText,

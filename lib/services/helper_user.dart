@@ -60,6 +60,29 @@ void loginUserInUI(BuildContext context,
   }
 }
 
-void resetPasswordInUI(BuildContext context, {required String email}) async {}
+void resetPasswordInUI(BuildContext context, {required String email}) async {
+  if (email.isEmpty) {
+    showSnackBar(context,
+        'Please enter your email address then click the Reset Password again!');
+  } else {
+    String result = await context.read<UserService>().resetPassword(email);
 
-void logoutUserInUI(BuildContext context) async {}
+    if (result == 'OK') {
+      showSnackBar(
+          context, 'Successfull sent password reset, Please check your mail');
+    } else {
+      showSnackBar(context, result);
+    }
+  }
+}
+
+void logoutUserInUI(BuildContext context) async {
+  String result = await context.read<UserService>().logoutUser();
+
+  if (result == 'OK') {
+    context.read<UserService>().setCurrentUserNull();
+    Navigator.popAndPushNamed(context, RouteManager.loginPage);
+  } else {
+    showSnackBar(context, result);
+  }
+}

@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:tuple/tuple.dart';
+import 'package:units_app/routes/routes.dart';
 import 'package:units_app/services/helper_user.dart';
 import 'package:units_app/services/user_service.dart';
 import 'package:units_app/views/widgets/app_progress_indicator.dart';
@@ -130,7 +131,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       height: screenHeight * .055,
                     ),
                     FormButton(
-                      onPressed: () {
+                      onPressed: () async {
                         createNewUserInUI(
                           context,
                           email: usernameController.text.trim(),
@@ -156,7 +157,8 @@ class _RegisterPageState extends State<RegisterPage> {
                         ),
                         TextButton(
                           onPressed: () {
-                            Navigator.pop(context);
+                            Navigator.of(context)
+                                .popAndPushNamed(RouteManager.loginPage);
                           },
                           child: const Text(
                             'Sign In',

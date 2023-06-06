@@ -99,7 +99,10 @@ class _LoginPage extends State<LoginPage> {
                     Align(
                       alignment: Alignment.centerRight,
                       child: TextButton(
-                        onPressed: () {},
+                        onPressed: () async {
+                          resetPasswordInUI(context,
+                              email: usernameController.text.trim());
+                        },
                         child: const Text(
                           'Forgot Password?',
                           style: TextStyle(
@@ -113,7 +116,7 @@ class _LoginPage extends State<LoginPage> {
                     ),
                     FormButton(
                         text: 'Log In',
-                        onPressed: () {
+                        onPressed: () async {
                           loginUserInUI(
                             context,
                             email: usernameController.text.trim(),
@@ -137,7 +140,7 @@ class _LoginPage extends State<LoginPage> {
                         TextButton(
                           onPressed: () {
                             Navigator.of(context)
-                                .pushNamed(RouteManager.registerPage);
+                                .popAndPushNamed(RouteManager.registerPage);
                           },
                           child: const Text(
                             'Sign Up',
