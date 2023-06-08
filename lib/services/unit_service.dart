@@ -14,18 +14,22 @@ class UnitService with ChangeNotifier {
     notifyListeners();
   }
 
+  // Variable to determine when to call Progress Indicator
   bool _busyRetrieving = false;
   bool _busySaving = false;
 
   bool get busyRetrieving => _busyRetrieving;
   bool get busySaving => _busySaving;
 
+  // Function get the units from Backendless Database table
+  // and extaction the data from the Json to a list
   Future<String> getUnits(String username) async {
     String result = 'OK';
     DataQueryBuilder queryBuilder = DataQueryBuilder()
       ..whereClause = "username = $username";
     _busyRetrieving = true;
     notifyListeners();
+
     List<Map<dynamic, dynamic>?>? map = await Backendless.data
         .of('UnitEntry')
         .find(queryBuilder)
@@ -40,7 +44,7 @@ class UnitService with ChangeNotifier {
     if (map != null) {
       if (map.isNotEmpty) {
         _unitEntry = UnitEntry.fromJson(map.first);
-        _units = convertMapToTodoList(_unitEntry!.units);
+        _units = convertMapToUnitList(_unitEntry!.units);
         notifyListeners();
       } else {
         emptyUnits();
@@ -53,16 +57,19 @@ class UnitService with ChangeNotifier {
     return result;
   }
 
+  // Function called when saving a the units
   Future<String> saveUnitsEntry(String username, bool inUI) async {
     String result = 'OK';
     return result;
   }
 
+  // Function Called for when deleting a specified unit
   void deleteUnit(Unit unit) {
     _units.remove(unit);
     notifyListeners();
   }
 
+  // Function Called for when creating a new unit
   void createUnit(Unit unit) {
     _units.insert(0, unit);
     notifyListeners();

@@ -6,7 +6,7 @@ Map<dynamic, dynamic> convertTodoListToMap(List<Unit> units) {
   return map;
 }
 
-List<Unit> convertMapToTodoList(Map<dynamic, dynamic> map) {
+List<Unit> convertMapToUnitList(Map<dynamic, dynamic> map) {
   List<Unit> units = [];
   for (var i = 0; i < map.length; i++) {
     units.add(Unit.fromJson(map['$i']));
@@ -15,7 +15,7 @@ List<Unit> convertMapToTodoList(Map<dynamic, dynamic> map) {
 }
 
 class Unit {
-  final String unitDesc;
+  String unitDesc;
   String reflections;
 
   Unit({
@@ -29,7 +29,7 @@ class Unit {
       };
 
   static Unit fromJson(Map<dynamic, dynamic>? json) => Unit(
-        unitDesc: json!['title'] as String,
+        unitDesc: json!['unitDesc'] as String,
         reflections: json['reflections'] as String,
       );
 

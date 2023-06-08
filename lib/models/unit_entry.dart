@@ -15,7 +15,7 @@ class UnitEntry {
 
   Map<String, Object?> toJson() => {
         'username': username,
-        'todos': units,
+        'units': units,
         'created': created,
         'updated': updated,
         'objectId': objectId,

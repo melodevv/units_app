@@ -1,7 +1,10 @@
 // ignore_for_file: body_might_complete_normally_nullable, unrelated_type_equality_checks, avoid_print
 
+import 'dart:convert';
+
 import 'package:backendless_sdk/backendless_sdk.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart';
 import 'package:units_app/models/unit_entry.dart';
 
 class UserService with ChangeNotifier {
@@ -19,6 +22,15 @@ class UserService with ChangeNotifier {
 
   set userExists(bool value) {
     _userExists = value;
+    notifyListeners();
+  }
+
+  // Called to see if the password is valid
+  bool _passwordInvalid = false;
+  bool get passwordInvalid => _passwordInvalid;
+
+  set passwordInvalid(bool value) {
+    _passwordInvalid = value;
     notifyListeners();
   }
 
@@ -166,6 +178,21 @@ class UserService with ChangeNotifier {
     });
   }
 
+  void checkIfPasswordInvalid(String password) {
+    // What makes a valid password
+    RegExp passwordExp = RegExp(
+      r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[()!@#$&*~]).{8,}$',
+    );
+
+    if (!passwordExp.hasMatch(password)) {
+      _passwordInvalid = true;
+      notifyListeners();
+    } else {
+      _passwordInvalid = false;
+      notifyListeners();
+    }
+  }
+
   // Create a new user on Backendless and create a database table
   Future<String> createUser(BackendlessUser user) async {
     String result = 'OK';
@@ -176,11 +203,27 @@ class UserService with ChangeNotifier {
     notifyListeners();
 
     try {
+      Map<String, dynamic> starterUnits = {};
+
+      // Get the json file data from Dropbox
+      // This is so that we can create starter notes for new users
+      final response = await get(
+        Uri.parse(
+            'https://dl.dropbox.com/s/q6chvs5eqktd1nb/unitReflections.json?dl=0'),
+      );
+
+      if (response.statusCode == 200) {
+        starterUnits = jsonDecode(response.body);
+      }
+
       // Try to register the new user on Backendless
       await Backendless.userService.register(user);
 
       // Create an empty table entry
-      UnitEntry emptyEntry = UnitEntry(units: {}, username: user.email);
+      UnitEntry emptyEntry = UnitEntry(
+        units: starterUnits,
+        username: user.email,
+      );
 
       // Save data to Backendless {TodoEntry} Table
       await Backendless.data
