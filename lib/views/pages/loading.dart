@@ -1,5 +1,7 @@
-import 'package:flutter/material.dart';
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, library_private_types_in_public_api
+
 import 'package:units_app/init.dart';
+import 'package:flutter/material.dart';
 
 class Loading extends StatefulWidget {
   const Loading({Key? key}) : super(key: key);
@@ -18,35 +20,22 @@ class _LoadingState extends State<Loading> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: Container(
-          decoration: const BoxDecoration(
-            gradient: LinearGradient(
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
-              colors: [Colors.purple, Colors.blue],
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Center(
+            child: CircularProgressIndicator(
+              color: Colors.lightBlue,
             ),
           ),
-          child: const Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Icon(
-                Icons.note_alt,
-                size: 100,
-                color: Colors.white,
-              ),
-              SizedBox(
-                height: 30,
-              ),
-              Text(
-                'Loading...please wait...',
-                textAlign: TextAlign.center,
-                style: TextStyle(color: Colors.white, fontSize: 20),
-              ),
-            ],
+          SizedBox(
+            height: 30,
           ),
-        ),
+          Text('Loading...Please wait!'),
+          SizedBox(
+            height: 30,
+          ),
+        ],
       ),
     );
   }
