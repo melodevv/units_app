@@ -58,10 +58,34 @@ class UnitService with ChangeNotifier {
   }
 
   // Function called when saving a the units
-  Future<String> saveUnitsEntry(String username, bool inUI) async {
+ Future<String> saveUnitsEntry(String username, bool inUI) async {
     String result = 'OK';
+    if (_unitEntry == null) {
+      _unitEntry =
+          UnitEntry(units: convertUnitListToMap(_units), username: username);
+    } else {
+      _unitEntry!.units = convertUnitListToMap(_units);
+    }
+
+    if (inUI) {
+      _busySaving = true;
+      notifyListeners();
+    }
+
+    await Backendless.data
+        .of('UnitEntry')
+        .save(_unitEntry!.toJson())
+        .onError((error, stackTrace) {
+      result = error.toString();
+    });
+
+    if (inUI) {
+      _busySaving = false;
+      notifyListeners();
+    }
     return result;
   }
+
 
   // Function Called for when deleting a specified unit
   void deleteUnit(Unit unit) {
