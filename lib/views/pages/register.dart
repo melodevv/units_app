@@ -167,7 +167,7 @@ class _RegisterPageState extends State<RegisterPage> {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           const Text(
-                            "Already have and account?",
+                            "Already have an account?",
                             style: TextStyle(
                               color: Colors.grey,
                               fontSize: 16,
