@@ -18,7 +18,16 @@ void refreshUnitsUI(BuildContext context) async {
   }
 }
 
-void saveAllUnitsUI(BuildContext context) async {}
+void saveAllUnitsUI(BuildContext context) async {
+  String result = await context
+      .read<UnitService>()
+      .saveUnitsEntry(context.read<UserService>().currentUser!.email, true);
+  if (result != 'OK') {
+    showSnackBar(context, result);
+  } else {
+    showSnackBar(context, 'Unit successfully saved!');
+  }
+}
 
 void createUnitsInUI(
   BuildContext context, {
