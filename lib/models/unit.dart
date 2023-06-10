@@ -1,3 +1,5 @@
+// ignore_for_file: unnecessary_this
+
 Map<dynamic, dynamic> convertUnitListToMap(List<Unit> units) {
   Map<dynamic, dynamic> map = {};
   for (var i = 0; i < units.length; i++) {
@@ -15,8 +17,8 @@ List<Unit> convertMapToUnitList(Map<dynamic, dynamic> map) {
 }
 
 class Unit {
-  String unitDesc;
-  String reflections;
+  final String unitDesc;
+  final String reflections;
 
   Unit({
     required this.unitDesc,
@@ -35,7 +37,11 @@ class Unit {
 
   @override
   bool operator ==(covariant Unit unit) {
-    return (unitDesc.toUpperCase().compareTo(unit.unitDesc.toUpperCase()) == 0);
+    return (this
+            .unitDesc
+            .toUpperCase()
+            .compareTo(unit.unitDesc.toUpperCase()) ==
+        0);
   }
 
   @override

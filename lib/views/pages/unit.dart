@@ -4,13 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart' as provider;
 import 'package:tuple/tuple.dart';
+import 'package:units_app/routes/routes.dart';
 import 'package:units_app/services/helper_unit.dart';
 import 'package:units_app/services/helper_user.dart';
+import 'package:units_app/services/unit_service.dart';
 import 'package:units_app/services/user_service.dart';
 import 'package:units_app/views/widgets/app_progress_indicator.dart';
-import 'package:units_app/views/widgets/dialogs.dart';
-
-import 'package:units_app/views/widgets/unitsListView.dart';
+import 'package:units_app/views/widgets/unit_card.dart';
 
 class UnitPage extends StatefulWidget {
   const UnitPage({super.key});
@@ -20,29 +20,9 @@ class UnitPage extends StatefulWidget {
 }
 
 class _UnitPageState extends State<UnitPage> {
-  final _units = [];
-
-  String name = '';
-  late TextEditingController unitController = TextEditingController();
-  late TextEditingController reflectionController = TextEditingController();
-
-  @override
-  initState() {
-    super.initState();
-    unitController = TextEditingController();
-    reflectionController = TextEditingController();
-  }
-
-  @override
-  dispose() {
-    unitController.dispose();
-    reflectionController.dispose();
-    super.dispose();
-  }
-
   @override
   Widget build(BuildContext context) {
-    double screenWidth = MediaQuery.of(context).size.width;
+    double screenHeight = MediaQuery.of(context).size.height;
 
     return Scaffold(
       body: Container(
@@ -63,9 +43,9 @@ class _UnitPageState extends State<UnitPage> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Padding(
-                    padding: const EdgeInsets.all(8.0),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 25.0, vertical: 15.0),
                     child: Container(
-                      width: screenWidth - 25,
                       decoration: BoxDecoration(
                         border: Border.all(
                           width: 1,
@@ -80,27 +60,22 @@ class _UnitPageState extends State<UnitPage> {
                             icon: Icon(Icons.refresh_rounded),
                             iconSize: 30,
                             onPressed: () {
-                              refreshUnitsUI(context);
+                              refreshUnitsInUI(context);
                             },
-                            // unitController: unitController,
-                            // reflectionController: reflectionController,
-                          ),
-                          // This button creates a new unit reflection,
-                          // you need to first enter the unit description,
-                          // press next when done, then enter the reflection,
-                          // and then save the unit
-                          nav_buttons(
-                            icon: Icon(Icons.add_rounded),
-                            iconSize: 30,
-                            onPressed: () {},
-                            // unitController: unitController,
-                            // reflectionController: reflectionController,
                           ),
                           nav_buttons(
                             icon: Icon(Icons.save_rounded),
                             iconSize: 30,
                             onPressed: () {
-                              saveAllUnitsUI(context);
+                              saveAllUnitsInUI(context);
+                            },
+                          ),
+                          nav_buttons(
+                            icon: Icon(Icons.add_rounded),
+                            iconSize: 30,
+                            onPressed: () {
+                              Navigator.of(context)
+                                  .pushNamed(RouteManager.createNewUnit);
                             },
                           ),
                           nav_buttons(
@@ -108,7 +83,6 @@ class _UnitPageState extends State<UnitPage> {
                             iconSize: 30,
                             onPressed: () {
                               logoutUserInUI(context);
-                              showSnackBar(context, "Logout successful!");
                             },
                           ),
                         ],
@@ -116,31 +90,48 @@ class _UnitPageState extends State<UnitPage> {
                     ),
                   ),
                   SvgPicture.asset('assets/images/homepage.svg'),
-                  provider.Selector<UserService, BackendlessUser?>(
-                    selector: (context, value) => value.currentUser,
-                    builder: (context, value, child) {
-                      name = value!.getProperty('name');
-                      return value == null
-                          ? Container()
-                          : Text(
-                              '${value.getProperty('name')}\'s Units'
-                                  .toUpperCase(),
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                fontSize: 45,
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 25),
+                    child: provider.Selector<UserService, BackendlessUser?>(
+                      selector: (context, value) => value.currentUser,
+                      builder: (context, value, child) {
+                        return value == null
+                            ? Container()
+                            : Text(
+                                '${value.getProperty('name')}\'s Units'
+                                    .toUpperCase(),
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  fontSize: 45,
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              );
+                      },
+                    ),
+                  ),
+                  SizedBox(height: screenHeight * .02),
+                  Expanded(
+                    // This UnitsListView displays the units reflections created by the user,
+                    // allowing them to delete, and toggle them
+                    flex: 5,
+                    child: provider.Consumer<UnitService>(
+                      builder: (context, value, child) {
+                        return ListView.builder(
+                          itemCount: value.units.length,
+                          itemBuilder: (context, index) {
+                            return Padding(
+                              padding: EdgeInsets.fromLTRB(25, 0, 25, 15),
+                              child: UnitCard(
+                                unit: value.units[index],
+                                onTap: () {},
                               ),
                             );
-                    },
+                          },
+                        );
+                      },
+                    ),
                   ),
-                  _units.isNotEmpty
-                      ? Expanded(
-                          // This UnitsListView displays the units reflections created by the user,
-                          // allowing them to delete, and toggle them
-                          child: UnitsListView(units: _units),
-                        )
-                      : Container(),
                 ],
               ),
             ),
@@ -151,6 +142,21 @@ class _UnitPageState extends State<UnitPage> {
                 return value.item1
                     ? AppProgressIndicator(text: value.item2)
                     : Container();
+              },
+            ),
+            provider.Selector<UnitService, Tuple2>(
+              selector: (context, value) =>
+                  Tuple2(value.busyRetrieving, value.busySaving),
+              builder: (context, value, child) {
+                return value.item1
+                    ? AppProgressIndicator(
+                        text:
+                            'Busy Retrieving data from the database...please wait')
+                    : value.item2
+                        ? AppProgressIndicator(
+                            text:
+                                'Busy saving data to the database...please wait')
+                        : Container();
               },
             ),
           ],

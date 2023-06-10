@@ -60,7 +60,7 @@ class _UnitPageState extends State<UnitPage> {
           IconButton(
             icon: Icon(Icons.refresh),
             onPressed: () {
-              refreshUnitsUI(context);
+              refreshUnitsInUI(context);
             },
           ),
           // This button creates a new unit reflection,
@@ -74,7 +74,7 @@ class _UnitPageState extends State<UnitPage> {
           IconButton(
             icon: Icon(Icons.save),
             onPressed: () {
-              saveAllUnitsUI(context);
+              saveAllUnitsInUI(context);
             },
           ),
         ],

@@ -60,7 +60,7 @@ class IconButtons extends StatelessWidget {
                               ),
                               TextButton(
                                 onPressed: () {
-                                  createUnitsInUI(
+                                  createNewUnitInUI(
                                     context,
                                     descriptionController: unitController,
                                     reflectionController: reflectionController,

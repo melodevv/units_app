@@ -7,10 +7,14 @@ import 'package:units_app/services/unit_service.dart';
 import 'package:units_app/services/user_service.dart';
 import 'package:units_app/views/widgets/dialogs.dart';
 
-void refreshUnitsUI(BuildContext context) async {
+// Function for the refreashing units in the ui
+void refreshUnitsInUI(BuildContext context) async {
+  // Get the and store the result of the getUnits function
   String result = await context
       .read<UnitService>()
       .getUnits(context.read<UserService>().currentUser!.email);
+
+  // verify the result gotten from the getUnits function
   if (result != 'OK') {
     showSnackBar(context, result);
   } else {
@@ -18,10 +22,14 @@ void refreshUnitsUI(BuildContext context) async {
   }
 }
 
-void saveAllUnitsUI(BuildContext context) async {
+// Function for the saving the units in the ui
+void saveAllUnitsInUI(BuildContext context) async {
+  // Get the and store the result of the saveUnitEntry function
   String result = await context
       .read<UnitService>()
-      .saveUnitsEntry(context.read<UserService>().currentUser!.email, true);
+      .saveUnitEntry(context.read<UserService>().currentUser!.email, true);
+
+  // verify the result gotten from the saveUnitEntry function
   if (result != 'OK') {
     showSnackBar(context, result);
   } else {
@@ -29,19 +37,20 @@ void saveAllUnitsUI(BuildContext context) async {
   }
 }
 
-void createUnitsInUI(
-  BuildContext context, {
-  required TextEditingController descriptionController,
-  required TextEditingController reflectionController,
-}) async {
-  if (descriptionController.text.isEmpty) {
-    showSnackBar(context, 'Enter units description');
+// Function for creating new unit entry in the ui
+void createNewUnitInUI(BuildContext context,
+    {required TextEditingController descriptionController,
+    required TextEditingController reflectionController}) async {
+  if (descriptionController.text.isEmpty || reflectionController.text.isEmpty) {
+    showSnackBar(context, 'All fields should be filled');
   } else {
+    // Create new Unit Entry
     Unit unit = Unit(
       unitDesc: descriptionController.text.trim(),
       reflections: reflectionController.text.trim(),
-      //created: DateTime.now(),
     );
+
+    // This code is to prevent having duplicate values
     if (context.read<UnitService>().units.contains(unit)) {
       showSnackBar(context, 'Duplicate value. Please try again');
     } else {

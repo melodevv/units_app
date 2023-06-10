@@ -4,6 +4,7 @@ import 'package:backendless_sdk/backendless_sdk.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:units_app/routes/routes.dart';
+import 'package:units_app/services/unit_service.dart';
 import 'package:units_app/services/user_service.dart';
 import 'package:units_app/views/widgets/dialogs.dart';
 
@@ -58,7 +59,7 @@ void loginUserInUI(BuildContext context,
     if (result != 'OK') {
       showSnackBar(context, result);
     } else {
-      // get the units of the users
+      context.read<UnitService>().getUnits(email);
       Navigator.of(context).popAndPushNamed(RouteManager.unitPage);
     }
   }

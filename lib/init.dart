@@ -4,6 +4,7 @@ import 'package:backendless_sdk/backendless_sdk.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
 import 'package:units_app/routes/routes.dart';
+import 'package:units_app/services/unit_service.dart';
 import 'package:units_app/services/user_service.dart';
 
 class InitApp {
@@ -18,6 +19,9 @@ class InitApp {
         androidApiKey: apiKeyAndroid);
     String result = await context.read<UserService>().checkIfUserLoggedIn();
     if (result == 'OK') {
+      context
+          .read<UnitService>()
+          .getUnits(context.read<UserService>().currentUser!.email);
       Navigator.popAndPushNamed(context, RouteManager.unitPage);
     } else {
       Navigator.popAndPushNamed(context, RouteManager.loginPage);

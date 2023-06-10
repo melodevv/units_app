@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:units_app/views/pages/createunit.dart';
 import 'package:units_app/views/pages/loading.dart';
 import 'package:units_app/views/pages/signin.dart';
 import 'package:units_app/views/pages/signup.dart';
@@ -9,6 +10,7 @@ class RouteManager {
   static const String registerPage = '/registerPage';
   static const String unitPage = '/unitPage';
   static const String loadingPage = '/loadingPage';
+  static const String createNewUnit = '/createUnitPage';
 
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
@@ -30,6 +32,10 @@ class RouteManager {
       case loadingPage:
         return MaterialPageRoute(
           builder: (context) => const Loading(),
+        );
+      case createNewUnit:
+        return MaterialPageRoute(
+          builder: (context) => const CreateNewUnitEntry(),
         );
 
       default:
