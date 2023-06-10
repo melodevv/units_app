@@ -7,6 +7,8 @@ import 'package:units_app/routes/routes.dart';
 import 'package:units_app/services/user_service.dart';
 import 'package:units_app/views/widgets/dialogs.dart';
 
+// This function is our viewmodel for registering a user
+// in on the RegisterPage
 void createNewUserInUI(BuildContext context,
     {required String email,
     required String password,
@@ -36,6 +38,8 @@ void createNewUserInUI(BuildContext context,
   }
 }
 
+// This function is our viewmodel for logging a users
+// in on the LoginPage
 void loginUserInUI(BuildContext context,
     {required String email, required String password}) async {
   // Remove focus from Textfeild and close keyboard
@@ -60,6 +64,8 @@ void loginUserInUI(BuildContext context,
   }
 }
 
+// This function is our viewmodel for resetting a users password when
+// the forgot password TextButton is clicked
 void resetPasswordInUI(BuildContext context, {required String email}) async {
   if (email.isEmpty) {
     showSnackBar(context,
@@ -76,6 +82,7 @@ void resetPasswordInUI(BuildContext context, {required String email}) async {
   }
 }
 
+// this function is our viewmodel for logging out a user
 void logoutUserInUI(BuildContext context) async {
   String result = await context.read<UserService>().logoutUser();
 

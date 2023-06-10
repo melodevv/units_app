@@ -25,7 +25,7 @@ class _LoadingState extends State<Loading> {
         children: [
           Center(
             child: CircularProgressIndicator(
-              color: Colors.lightBlue,
+              color: const Color.fromRGBO(253, 213, 4, 1),
             ),
           ),
           SizedBox(

@@ -8,7 +8,7 @@ class AppProgressIndicator extends StatelessWidget {
     return Container(
       height: MediaQuery.of(context).size.height,
       width: MediaQuery.of(context).size.width,
-      color: Colors.white.withOpacity(0.7),
+      color: const Color.fromRGBO(255, 255, 255, 1).withOpacity(0.7),
       child: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -17,7 +17,7 @@ class AppProgressIndicator extends StatelessWidget {
               height: 20,
               width: 20,
               child: CircularProgressIndicator(
-                color: Colors.purple,
+                color: Color.fromRGBO(253, 213, 4, 1),
               ),
             ),
             const SizedBox(

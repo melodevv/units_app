@@ -40,6 +40,7 @@ dependencies:
   shared_preferences: ^2.1.1
   tuple: ^2.0.1
   http: ^0.13.6
+  flutter_svg: ^2.0.6
 
 dev_dependencies:
   flutter_test:
@@ -64,9 +65,10 @@ flutter:
   uses-material-design: true
 
   # To add assets to your application, add an assets section, like this:
-  # assets:
-    # - assets/unitReflections.json
-    # - images/a_dot_ham.jpeg
+  assets:
+    - assets/images/homepage.svg
+    - assets/images/login.svg
+    - assets/images/signup.svg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

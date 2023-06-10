@@ -9,8 +9,14 @@ void showSnackBar(BuildContext context, String message) {
       topLeft: Radius.circular(5),
       topRight: Radius.circular(5),
     )),
-    backgroundColor: Colors.purple,
-    content: Text(message),
+    backgroundColor: const Color.fromRGBO(253, 213, 4, 1),
+    content: Text(
+      message,
+      style: const TextStyle(
+        fontSize: 16,
+        color: Color.fromRGBO(38, 38, 38, 1),
+      ),
+    ),
   );
   ScaffoldMessenger.of(context).showSnackBar(snackBar);
 }

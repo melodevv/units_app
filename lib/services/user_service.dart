@@ -179,12 +179,7 @@ class UserService with ChangeNotifier {
   }
 
   void checkIfPasswordInvalid(String password) {
-    // What makes a valid password
-    RegExp passwordExp = RegExp(
-      r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[()!@#$&*~]).{8,}$',
-    );
-
-    if (!passwordExp.hasMatch(password)) {
+    if (password.length <= 8) {
       _passwordInvalid = true;
       notifyListeners();
     } else {

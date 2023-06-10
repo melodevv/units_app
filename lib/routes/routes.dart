@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:units_app/views/pages/loading.dart';
-import 'package:units_app/views/pages/login.dart';
-import 'package:units_app/views/pages/register.dart';
+import 'package:units_app/views/pages/signin.dart';
+import 'package:units_app/views/pages/signup.dart';
 import 'package:units_app/views/pages/unit.dart';
 
 class RouteManager {
@@ -14,12 +14,12 @@ class RouteManager {
     switch (settings.name) {
       case loginPage:
         return MaterialPageRoute(
-          builder: (context) => const LoginPage(),
+          builder: (context) => const SignInPage(),
         );
 
       case registerPage:
         return MaterialPageRoute(
-          builder: (context) => const RegisterPage(),
+          builder: (context) => const SingUpPage(),
         );
 
       case unitPage:
