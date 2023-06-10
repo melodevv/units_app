@@ -9,7 +9,7 @@ class AppProgressIndicator extends StatelessWidget {
       height: MediaQuery.of(context).size.height,
       width: MediaQuery.of(context).size.width,
       decoration: BoxDecoration(
-        color: const Color.fromRGBO(253, 213, 4, 1).withOpacity(0.5),
+        color: const Color.fromRGBO(26, 128, 253, 1).withOpacity(0.5),
         borderRadius: BorderRadius.circular(25),
         boxShadow: const [
           BoxShadow(

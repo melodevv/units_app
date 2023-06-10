@@ -12,19 +12,20 @@ import 'package:units_app/services/user_service.dart';
 import 'package:units_app/views/widgets/app_progress_indicator.dart';
 import 'package:units_app/views/widgets/unit_card.dart';
 
-class UnitPage extends StatefulWidget {
-  const UnitPage({super.key});
+class UnitReflectionsPage extends StatefulWidget {
+  const UnitReflectionsPage({super.key});
 
   @override
-  State<UnitPage> createState() => _UnitPageState();
+  State<UnitReflectionsPage> createState() => _UnitReflectionsPageState();
 }
 
-class _UnitPageState extends State<UnitPage> {
+class _UnitReflectionsPageState extends State<UnitReflectionsPage> {
   @override
   Widget build(BuildContext context) {
     double screenHeight = MediaQuery.of(context).size.height;
 
     return Scaffold(
+      // THis Container code is for the app background
       body: Container(
         decoration: const BoxDecoration(
           gradient: LinearGradient(
@@ -64,18 +65,11 @@ class _UnitPageState extends State<UnitPage> {
                             },
                           ),
                           nav_buttons(
-                            icon: Icon(Icons.save_rounded),
-                            iconSize: 30,
-                            onPressed: () {
-                              saveAllUnitsInUI(context);
-                            },
-                          ),
-                          nav_buttons(
                             icon: Icon(Icons.add_rounded),
                             iconSize: 30,
                             onPressed: () {
                               Navigator.of(context)
-                                  .pushNamed(RouteManager.createNewUnit);
+                                  .pushNamed(RouteManager.unitCreate);
                             },
                           ),
                           nav_buttons(
@@ -112,25 +106,41 @@ class _UnitPageState extends State<UnitPage> {
                   ),
                   SizedBox(height: screenHeight * .02),
                   Expanded(
-                    // This UnitsListView displays the units reflections created by the user,
-                    // allowing them to delete, and toggle them
-                    flex: 5,
-                    child: provider.Consumer<UnitService>(
+                    child: provider.Selector<UnitService, List>(
+                      selector: (context, value) => value.units,
                       builder: (context, value, child) {
                         return ListView.builder(
-                          itemCount: value.units.length,
+                          itemCount: value.length,
                           itemBuilder: (context, index) {
-                            return Padding(
-                              padding: EdgeInsets.fromLTRB(25, 0, 25, 15),
-                              child: UnitCard(
-                                unit: value.units[index],
-                                onTap: () {},
-                              ),
+                            return UnitCard(
+                              unit: value[index],
+                              onTap: () {
+                                context.read<UnitService>().selectedUnit =
+                                    value[index];
+                                Navigator.of(context)
+                                    .pushNamed(RouteManager.unitViewPage);
+                              },
                             );
                           },
                         );
                       },
                     ),
+                    // child: provider.Consumer<UnitService>(
+                    //   builder: (context, value, child) {
+                    //     return ListView.builder(
+                    //       itemCount: value.units.length,
+                    //       itemBuilder: (context, index) {
+                    //         return Padding(
+                    //           padding: EdgeInsets.fromLTRB(25, 0, 25, 15),
+                    //           child: UnitCard(
+                    //             unit: value.units[index],
+                    //             onTap: () {},
+                    //           ),
+                    //         );
+                    //       },
+                    //     );
+                    //   },
+                    // ),
                   ),
                 ],
               ),

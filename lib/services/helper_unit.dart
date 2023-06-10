@@ -54,8 +54,9 @@ void createNewUnitInUI(BuildContext context,
     if (context.read<UnitService>().units.contains(unit)) {
       showSnackBar(context, 'Duplicate value. Please try again');
     } else {
-      descriptionController.text = '';
       context.read<UnitService>().createUnit(unit);
+      descriptionController.text = '';
+      reflectionController.text = '';
       Navigator.pop(context);
     }
   }

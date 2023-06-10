@@ -32,12 +32,13 @@ class FormButton extends StatelessWidget {
       child: ElevatedButton(
         onPressed: onPressed as void Function()?,
         style: ElevatedButton.styleFrom(
-            backgroundColor: Colors.transparent,
-            shadowColor: Colors.transparent,
-            padding: EdgeInsets.symmetric(vertical: screenHeight * .02),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(50),
-            )),
+          backgroundColor: Colors.transparent,
+          shadowColor: Colors.transparent,
+          padding: EdgeInsets.symmetric(vertical: screenHeight * .02),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(50),
+          ),
+        ),
         child: Text(
           text,
           style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),

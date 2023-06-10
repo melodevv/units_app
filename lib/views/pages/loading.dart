@@ -20,22 +20,35 @@ class _LoadingState extends State<Loading> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Center(
-            child: CircularProgressIndicator(
-              color: const Color.fromRGBO(253, 213, 4, 1),
+      body: Container(
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: [
+              Color.fromRGBO(98, 58, 162, 1),
+              Color.fromRGBO(26, 128, 253, 1),
+              Color.fromRGBO(98, 58, 162, 1)
+            ],
+          ),
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Center(
+              child: CircularProgressIndicator(
+                color: const Color.fromRGBO(253, 213, 4, 1),
+              ),
             ),
-          ),
-          SizedBox(
-            height: 30,
-          ),
-          Text('Loading...Please wait!'),
-          SizedBox(
-            height: 30,
-          ),
-        ],
+            SizedBox(
+              height: 30,
+            ),
+            Text('Loading...Please wait!'),
+            SizedBox(
+              height: 30,
+            ),
+          ],
+        ),
       ),
     );
   }

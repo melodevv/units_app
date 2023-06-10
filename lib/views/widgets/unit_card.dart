@@ -28,7 +28,7 @@ class UnitCard extends StatelessWidget {
         ),
       ),
       child: ListTile(
-        contentPadding: const EdgeInsets.all(30),
+        contentPadding: const EdgeInsets.all(10.0),
         onTap: onTap,
         title: Text(
           unit.unitDesc,
@@ -36,13 +36,6 @@ class UnitCard extends StatelessWidget {
             color: Color.fromRGBO(253, 213, 4, 1),
             fontSize: 25,
             fontWeight: FontWeight.bold,
-          ),
-        ),
-        subtitle: Text(
-          '${unit.reflections.substring(0, 50)}...',
-          style: const TextStyle(
-            color: Colors.white,
-            fontSize: 16,
           ),
         ),
         trailing: const Icon(

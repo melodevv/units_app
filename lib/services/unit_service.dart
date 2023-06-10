@@ -25,6 +25,14 @@ class UnitService with ChangeNotifier {
   bool get busyRetrieving => _busyRetrieving;
   bool get busySaving => _busySaving;
 
+  // Variable to store the selectedUnit
+  Unit? _selectedUnit;
+  Unit? get selectedUnit => _selectedUnit;
+  set selectedUnit(Unit? unit) {
+    _selectedUnit = unit;
+    notifyListeners();
+  }
+
   // Function get the units from Backendless Database table
   // and extracts the data from the Json to a list
   Future<String> getUnits(String username) async {
@@ -110,12 +118,6 @@ class UnitService with ChangeNotifier {
     }
 
     return result;
-  }
-
-  // Function Called for when deleting a specified unit
-  void deleteUnit(Unit unit) {
-    _units.remove(unit);
-    notifyListeners();
   }
 
   // Function Called for when creating a new unit

@@ -2,14 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:units_app/services/helper_unit.dart';
 import 'package:units_app/views/widgets/form_button.dart';
 
-class CreateNewUnitEntry extends StatefulWidget {
-  const CreateNewUnitEntry({super.key});
+class UnitCreatePage extends StatefulWidget {
+  const UnitCreatePage({super.key});
 
   @override
-  State<CreateNewUnitEntry> createState() => _CreateNewUnitEntryState();
+  State<UnitCreatePage> createState() => _UnitCreatePageState();
 }
 
-class _CreateNewUnitEntryState extends State<CreateNewUnitEntry> {
+class _UnitCreatePageState extends State<UnitCreatePage> {
+  // controller for textfields
   late TextEditingController descriptionController = TextEditingController();
   late TextEditingController reflectionController = TextEditingController();
 
@@ -30,6 +31,7 @@ class _CreateNewUnitEntryState extends State<CreateNewUnitEntry> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      // THis Container code is for the app background
       body: Container(
         height: MediaQuery.of(context).size.height,
         decoration: const BoxDecoration(
@@ -116,6 +118,7 @@ class _CreateNewUnitEntryState extends State<CreateNewUnitEntry> {
                         descriptionController: descriptionController,
                         reflectionController: reflectionController,
                       );
+                      saveAllUnitsInUI(context);
                     },
                   ),
                   TextButton(
