@@ -121,6 +121,12 @@ class UnitService with ChangeNotifier {
   }
 
   // Function Called for when creating a new unit
+  void deleteUnit(Unit unit) {
+    _units.remove(unit);
+    notifyListeners();
+  }
+
+  // Function Called for when creating a new unit
   void createUnit(Unit unit) {
     _units.insert(0, unit);
     notifyListeners();

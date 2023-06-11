@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:units_app/models/unit.dart';
+import 'package:units_app/services/helper_unit.dart';
 import 'package:units_app/services/unit_service.dart';
 
 class UnitsViewPage extends StatefulWidget {
@@ -102,6 +103,20 @@ class _UnitsViewPageState extends State<UnitsViewPage> {
                             ),
                           ),
                         ),
+                        TextButton(
+                          child: const Text(
+                            'delete',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 18,
+                            ),
+                          ),
+                          onPressed: () {
+                            context.read<UnitService>().deleteUnit(value);
+                            saveAllUnitsInUI(context);
+                            Navigator.pop(context);
+                          },
+                        )
                       ],
                     ),
                   ),

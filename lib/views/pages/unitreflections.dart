@@ -106,41 +106,47 @@ class _UnitReflectionsPageState extends State<UnitReflectionsPage> {
                   ),
                   SizedBox(height: screenHeight * .02),
                   Expanded(
-                    child: provider.Selector<UnitService, List>(
-                      selector: (context, value) => value.units,
-                      builder: (context, value, child) {
-                        return ListView.builder(
-                          itemCount: value.length,
-                          itemBuilder: (context, index) {
-                            return UnitCard(
-                              unit: value[index],
-                              onTap: () {
-                                context.read<UnitService>().selectedUnit =
-                                    value[index];
-                                Navigator.of(context)
-                                    .pushNamed(RouteManager.unitViewPage);
-                              },
-                            );
-                          },
-                        );
-                      },
-                    ),
-                    // child: provider.Consumer<UnitService>(
+                    // child: provider.Selector<UnitService, Tuple2>(
+                    //   selector: (context, value) =>
+                    //       Tuple2(value.units, value.selectedUnit),
                     //   builder: (context, value, child) {
                     //     return ListView.builder(
-                    //       itemCount: value.units.length,
+                    //       itemCount: value.item1.length,
                     //       itemBuilder: (context, index) {
-                    //         return Padding(
-                    //           padding: EdgeInsets.fromLTRB(25, 0, 25, 15),
-                    //           child: UnitCard(
-                    //             unit: value.units[index],
-                    //             onTap: () {},
-                    //           ),
+                    //         return UnitCard(
+                    //           unit: value.item1[index],
+                    //           onTap: () {
+                    //             context.read<UnitService>().selectedUnit =
+                    //                 value.item1[index];
+                    //             Navigator.of(context)
+                    //                 .pushNamed(RouteManager.unitViewPage);
+                    //           },
                     //         );
                     //       },
                     //     );
                     //   },
                     // ),
+                    child: provider.Consumer<UnitService>(
+                      builder: (context, value, child) {
+                        return ListView.builder(
+                          itemCount: value.units.length,
+                          itemBuilder: (context, index) {
+                            return Padding(
+                              padding: EdgeInsets.fromLTRB(25, 0, 25, 15),
+                              child: UnitCard(
+                                unit: value.units[index],
+                                onTap: () {
+                                  context.read<UnitService>().selectedUnit =
+                                      value.units[index];
+                                  Navigator.of(context)
+                                      .pushNamed(RouteManager.unitViewPage);
+                                },
+                              ),
+                            );
+                          },
+                        );
+                      },
+                    ),
                   ),
                 ],
               ),
