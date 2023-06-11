@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:units_app/models/unit.dart';
-import 'package:units_app/services/helper_unit.dart';
+import 'package:units_app/viewmodel/helper_unit.dart';
 import 'package:units_app/services/unit_service.dart';
 
 class UnitsViewPage extends StatefulWidget {

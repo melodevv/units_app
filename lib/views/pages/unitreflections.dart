@@ -5,11 +5,12 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart' as provider;
 import 'package:tuple/tuple.dart';
 import 'package:units_app/routes/routes.dart';
-import 'package:units_app/services/helper_unit.dart';
-import 'package:units_app/services/helper_user.dart';
+import 'package:units_app/viewmodel/helper_unit.dart';
+import 'package:units_app/viewmodel/helper_user.dart';
 import 'package:units_app/services/unit_service.dart';
 import 'package:units_app/services/user_service.dart';
 import 'package:units_app/views/widgets/app_progress_indicator.dart';
+import 'package:units_app/views/widgets/nav_button.dart';
 import 'package:units_app/views/widgets/unit_card.dart';
 
 class UnitReflectionsPage extends StatefulWidget {
@@ -57,14 +58,14 @@ class _UnitReflectionsPageState extends State<UnitReflectionsPage> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
-                          nav_buttons(
+                          NavButtons(
                             icon: Icon(Icons.refresh_rounded),
                             iconSize: 30,
                             onPressed: () {
                               refreshUnitsInUI(context);
                             },
                           ),
-                          nav_buttons(
+                          NavButtons(
                             icon: Icon(Icons.add_rounded),
                             iconSize: 30,
                             onPressed: () {
@@ -72,7 +73,7 @@ class _UnitReflectionsPageState extends State<UnitReflectionsPage> {
                                   .pushNamed(RouteManager.unitCreate);
                             },
                           ),
-                          nav_buttons(
+                          NavButtons(
                             icon: Icon(Icons.exit_to_app_rounded),
                             iconSize: 30,
                             onPressed: () {
@@ -106,26 +107,6 @@ class _UnitReflectionsPageState extends State<UnitReflectionsPage> {
                   ),
                   SizedBox(height: screenHeight * .02),
                   Expanded(
-                    // child: provider.Selector<UnitService, Tuple2>(
-                    //   selector: (context, value) =>
-                    //       Tuple2(value.units, value.selectedUnit),
-                    //   builder: (context, value, child) {
-                    //     return ListView.builder(
-                    //       itemCount: value.item1.length,
-                    //       itemBuilder: (context, index) {
-                    //         return UnitCard(
-                    //           unit: value.item1[index],
-                    //           onTap: () {
-                    //             context.read<UnitService>().selectedUnit =
-                    //                 value.item1[index];
-                    //             Navigator.of(context)
-                    //                 .pushNamed(RouteManager.unitViewPage);
-                    //           },
-                    //         );
-                    //       },
-                    //     );
-                    //   },
-                    // ),
                     child: provider.Consumer<UnitService>(
                       builder: (context, value, child) {
                         return ListView.builder(
@@ -178,29 +159,6 @@ class _UnitReflectionsPageState extends State<UnitReflectionsPage> {
           ],
         ),
       ),
-    );
-  }
-}
-
-class nav_buttons extends StatelessWidget {
-  const nav_buttons({
-    super.key,
-    required this.icon,
-    required this.iconSize,
-    required this.onPressed,
-  });
-
-  final Icon icon;
-  final double iconSize;
-  final void Function() onPressed;
-
-  @override
-  Widget build(BuildContext context) {
-    return IconButton(
-      color: Colors.white,
-      icon: icon,
-      iconSize: iconSize,
-      onPressed: onPressed,
     );
   }
 }
