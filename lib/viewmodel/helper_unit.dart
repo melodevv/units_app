@@ -57,7 +57,8 @@ void createNewUnitInUI(BuildContext context,
       context.read<UnitService>().createUnit(unit);
       descriptionController.text = '';
       reflectionController.text = '';
-      Navigator.pop(context);
+      Future.delayed(const Duration(milliseconds: 3500),
+          () => Navigator.of(context).pop(context));
     }
   }
 }

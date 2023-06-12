@@ -114,7 +114,8 @@ class _UnitsViewPageState extends State<UnitsViewPage> {
                           onPressed: () {
                             context.read<UnitService>().deleteUnit(value);
                             saveAllUnitsInUI(context);
-                            Navigator.pop(context);
+                            Future.delayed(const Duration(milliseconds: 3500),
+                                () => Navigator.of(context).pop(context));
                           },
                         )
                       ],
